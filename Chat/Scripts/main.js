@@ -2,7 +2,7 @@
  * Created by v.shulzhytskaya on 9/6/2016.
  */
 
-require(["knockout-3.4.0", "AppViewModel"],function (ko, AppViewModel) {
+require(["lib/knockout-3.4.0.js", "AppViewModel"],function (ko, AppViewModel) {
 
     ko.bindingHandlers.slideVisible = {
         update: function(element, valueAccessor, allBindings) {

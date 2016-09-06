@@ -2,15 +2,25 @@
  * Created by v.shulzhytskaya on 9/6/2016.
  */
 
-define(["knockout-3.4.0", "Message"], function (ko, Message) {
+define(["lib/knockout-3.4.0.js", "Message"], function (ko, Message) {
 
     function Room(name) {
         var self = this;
         self.name = ko.observable(name);
-        self.message = ko.observable();
 
         self.messages = ko.observableArray();
+        self.addMessage = function (sender, message) {
+            self.messages.push(new Message(sender, message));
+        };
+
         self.users = ko.observableArray();
+        self.addUser = function (user) {
+            self.users.push(user);
+        };
+
+        self.deleteUser = function (user) {
+            self.users.remove(user);
+        }
 
         self.membersName = ko.computed(function () {
             var members = "";
@@ -19,16 +29,7 @@ define(["knockout-3.4.0", "Message"], function (ko, Message) {
             }
             return members;
         });
-
-        self.addMessage = function () {
-            self.messages.push(new Message(this.sender(), self.message()));
-        };
-
-        self.addUser = function (user) {
-            self.users.push(user);
-        };
     }
-
     return Room;
 
 });
