@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+
+    <script src="Styles/bootstrap/jquery-3.1.0.min.js"></script>
+
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" media="screen" href="Styles/bootstrap/css/bootstrap.min.css">
+    <script src="Styles/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="Styles/site.css">
+    <script type="text/javascript" src="Scripts/knockout-3.4.0.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container" data-bind="with:authorize">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Chat</a>
+        </div>
+        <!-- ko if:authorizedUserName -->
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <p>Hello, <strong data-bind="text:authorizedUserName"></strong>!</p>
+                </li>
+                <li>
+                    <button class="btn btn-danger" data-bind="click:logout">Exit</button>
+                </li>
+            </ul>
+        </div>
+        <!-- /ko -->
+    </div>
+</nav>
+<div class="container">
+    <div class="jumbotron">
+        <h1>Chatting with your friend</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <!-- ko if:authorize.authorizedUserName -->
+            <h5>Chats:</h5>
+            <ul data-bind="foreach: availableRooms">
+                <li>
+                    <p>Name: <span data-bind="text:name, click:$parent.clickRoom"></span></p>
+                    <p>Members:<span data-bind="text:membersName"></span></p>
+
+                </li>
+            </ul>
+            <hr/>
+            <label><input type="checkbox" data-bind="checked: slideForm" /> Create new room!</label>
+            <div data-bind="slideVisible: slideForm, slideDuration:600">
+                <p>Enter room name: <input type="text" data-bind="value:roomName"/></p>
+                <p>Choose members:<select multiple data-bind="options:availableMembers,
+                                                          optionsText: 'name',
+                                                          selectedOptions: selectedUsers"></select> </p>
+                <button class="btn btn-default" data-bind="click:createRoom">Save</button>
+            </div>
+            <!-- /ko -->
+        </div>
+        <div class="col-md-5">
+            <!-- ko if:authorize.authorizedUserName -->
+            <h4>Messages:</h4>
+            <!-- ko if:selectedRoom -->
+            <!-- ko with:selectedRoom -->
+            <h5 data-bind="text: name"></h5>
+            <div class="container">
+                <dl data-bind="foreach:messages">
+                    <dt data-bind="text:fromLine"></dt>
+                    <dd data-bind="text:text"></dd>
+                </dl>
+                <input type="text" data-bind="value:message" />
+                <button class="btn" data-bind="click:addMessage.bind($parent)">Send</button>
+            </div>
+            <!-- /ko -->
+            <!-- /ko -->
+            <!-- /ko -->
+        </div>
+        <div class="col-md-4" data-bind="with:authorize">
+            <!-- ko ifnot:authorizedUserName -->
+            <button class="btn btn-default" data-bind="click:showEnterForm, text: buttonValue"></button>
+            <p></p>
+            <!-- ko if:shouldShowEnterForm -->
+            <p>Login: <input type="text" data-bind="value: enterLogin" /></p>
+            <p>Password: <input type="password" data-bind="value: enterPassword" /></p>
+            <button class="btn btn-default" data-bind="click: checkRight">Enter</button>
+            <button class="btn btn-info" data-bind="click: register">Register me</button>
+            <!-- /ko -->
+            <!-- /ko -->
+        </div>
+    </div>
+</div>
+<script data-main="Scripts/main" src="Scripts/require.js"></script>
+</body>
+</html>
