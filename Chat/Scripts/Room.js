@@ -45,31 +45,12 @@ define(['knockout', 'Message', 'Notification'], function (ko, Message, Notificat
         self.notifyInformation = ko.observableArray();
         
 
-        self.getNotificationCount = function (user) {
-            var t;
-            var u;
-            if(user.authorizedUser == undefined){
-                u = user;
-            }
-            else{
-                u = user.authorizedUser();
-            }
-
-            ko.utils.arrayForEach(self.notifyInformation(), function (item) {
-                if(item.user == u){
-                    t = item.countOfNotification();
-                }
-            });
-            return t;
-        };
-        
         self.readMessage = function (user) {
             ko.utils.arrayForEach(self.notifyInformation(), function (item) {
                 if(item.user == user){
                     item.removeNotification();
                 }
             });
-            self.getNotificationCount(user);
         };
 
         self.getNote = function (user) {

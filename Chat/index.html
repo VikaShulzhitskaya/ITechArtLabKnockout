@@ -16,18 +16,22 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Chat</a>
         </div>
+        <!-- ko with:authorize -->
         <!-- ko if:authorizedUser -->
         <!-- ko with:authorizedUser -->
         <div class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right">
+                <div class="form-group">
+                    <button class="btn btn-danger" data-bind="click:$parent.logout">Exit</button>
+                </div>
+            </form>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <p>Hello, <strong data-bind="text:name"></strong>!</p>
-                </li>
-                <li>
-                    <button class="btn btn-danger" data-bind="click:$parent.logout">Exit</button>
+                    <a href="#">Hello, <strong data-bind="text:name"></strong>!</a>
                 </li>
             </ul>
         </div>
+        <!-- /ko -->
         <!-- /ko -->
         <!-- /ko -->
     </div>
@@ -37,58 +41,81 @@
         <h1>Chatting with your friend</h1>
     </div>
     <div class="row">
-        <div class="col-md-3">
-            <!-- ko if:authorizedUser -->
+        <div class="col-md-4">
+            <!-- ko if:authorize.authorizedUser -->
             <label><input type="checkbox" data-bind="checked: slideForm" /> Create new room!</label>
-            <div data-bind="slideVisible: slideForm, slideDuration:600">
-                <p>Enter room name: <input type="text" data-bind="value:newRoomName"/></p>
-                <p>Choose members:<select multiple data-bind="options:availableMembers,
-                                                          optionsText: 'name',
-                                                          selectedOptions: selectedUsers"></select> </p>
-                <button class="btn btn-default" data-bind="click:createRoom">Save</button>
-            </div>
-            <hr/>
+            <form data-bind="slideVisible: slideForm, slideDuration:600">
+                <div class="form-group">
+                    <label>Enter room name: <input class="form-control" type="text" data-bind="value:newRoomName"/></label>
+                </div>
+                <div class="form-group">
+                    <label>Choose members:</label>
+                    <select multiple class="form-control" data-bind="options:authorize.availableMembers,
+                                                    optionsText: 'name',
+                                                    selectedOptions: selectedUsers">
+                    </select>
+                </div>
+                <button class="btn btn-default" data-bind="click:createRoom">Create room!</button>
+            </form>
+
+            <br>
             <h5>Chats:</h5>
-            <ul data-bind="foreach: availableRooms">
+            <ul data-bind="foreach: authorize.availableRooms">
                 <li>
                     <p>Name: <span data-bind="text:name, click:$root.clickRoom"></span></p>
                     <p>Members:<span data-bind="text:membersName"></span></p>
-                    <p><button type="button" data-bind="text:getNotificationCount($root), valueUpdate:'change'" class="btn btn-warning btn-circle"></button></p>
+                    <notify params="model: $root, notify: $data"></notify>
                     <a href="#" data-bind="click: $root.unsubscribeFromRoom">Unsubscribe</a>
                 </li>
             </ul>
             <!-- /ko -->
         </div>
         <div class="col-md-5">
-            <!-- ko if:authorizedUser -->
+            <!-- ko if:authorize.authorizedUser -->
             <h4>Messages:</h4>
             <!-- ko if:selectedRoom -->
             <!-- ko with:selectedRoom -->
-            <h5 data-bind="text: name"></h5>
-            <div class="container">
-                <dl data-bind="foreach:messages">
-                    <dt data-bind="text:fromLine"></dt>
-                    <dd data-bind="text:text"></dd>
-                </dl>
-                <input type="text" data-bind="value:$parent.enterMessage" />
-                <button class="btn" data-bind="click:$root.addNewMessage">Send</button>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h5 class="panel-title" data-bind="text:name"></h5>
+                </div>
+                <div class="panel-body fixed-panel">
+                        <dl data-bind="foreach:messages">
+                            <dt data-bind="text:fromLine"></dt>
+                            <dd data-bind="text:text"></dd>
+                        </dl>
+                </div>
+                <div class="panel-footer">
+                    <input type="text" data-bind="value:$parent.enterMessage" />
+                    <button class="btn" data-bind="click:$root.addNewMessage">Send</button>
+                </div>
             </div>
             <!-- /ko -->
             <!-- /ko -->
             <!-- /ko -->
         </div>
-        <div class="col-md-4">
-            <!-- ko ifnot:authorizedUser -->
+        <div class="col-md-3">
+            <!-- ko ifnot:authorize.authorizedUser -->
             <button class="btn btn-default" data-bind="click:showEnterForm, text: buttonValue"></button>
             <p></p>
             <!-- ko if:shouldShowEnterForm -->
-            <p>Login: <input type="text" data-bind="value: enterLogin" /></p>
-            <p>Password: <input type="password" data-bind="value: enterPassword" /></p>
-            <button class="btn btn-default" data-bind="click: login">Enter</button>
-            <button class="btn btn-info" data-bind="click: register">Register me</button>
+            <!-- ko with:authorize -->
+            <form>
+                <div class="form-group">
+                    <label>Login</label>
+                    <input class="form-control" type="text" data-bind="value:enterLogin">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input class="form-control" type="password" data-bind="value:enterPassword">
+                </div>
+                <button class="btn btn-default" data-bind="click:login.bind($parent)">Enter</button>
+                <button class="btn btn-info" data-bind="click:register">Register me</button>
+            </form>
             <!-- /ko -->
             <!-- /ko -->
-            <!-- ko if:authorizedUser -->
+            <!-- /ko -->
+            <!-- ko if:authorize.authorizedUser -->
             <div class="row">
                 <p></p>
                 <input type="text" class="search" placeholder="Search" data-bind="value:search, valueUpdate:'keyup'"/>
@@ -99,11 +126,6 @@
             <!-- /ko -->
         </div>
     </div>
-    <!-- ko if:authorizedUser -->
-    <div class="row">
-        <click params="a: a, b: b"></click>
-    </div>
-    <!-- /ko -->
 
 </div>
 <script data-main="Scripts/main" src="Scripts/lib/require.js"></script>

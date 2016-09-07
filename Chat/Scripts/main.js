@@ -10,18 +10,26 @@
     });
 
     require(['knockout', 'AppViewModel'],function (ko, AppViewModel) {
-        ko.components.register('click', {
+
+        ko.components.register('notify', {
             viewModel: function (params) {
                 self = this;
-                this.a = params.a;
-                this.b = params.b;
+                self.model = params.model;
+                self.notifyInfo = params.notify;
 
-                this.callback = function (num) {
-                    self.b(parseInt(num));
-                    self.a(self.a() + parseInt(num));
+                self.getNotificationCount = function (user) {
+                    var t;
+                    var u = self.model.authorize.authorizedUser();
+
+                    ko.utils.arrayForEach( self.notifyInfo.notifyInformation(), function (item) {
+                        if(item.user == u){
+                            t = item.countOfNotification();
+                        }
+                    });
+                    return t;
                 };
             },
-            template: '<div data-bind="text: a"></div><button class="btn" data-bind="click:function(){callback(1)}">Increase</button><button class="btn" data-bind="click:function(){callback(-1)}">Decrease</button>'
+            template: '<p><button type="button" data-bind="text:getNotificationCount($root), valueUpdate:change" class="btn btn-warning btn-circle"></button></p>'
         });
 
         ko.bindingHandlers.slideVisible = {
