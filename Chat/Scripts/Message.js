@@ -2,8 +2,9 @@
  * Created by v.shulzhytskaya on 9/6/2016.
  */
 
-define(["lib/knockout-3.4.0.js"],function (ko) {
-    
+define(['knockout'],function (ko) {
+
+    'use strict';
     function Message(sender, text) {
         var self = this;
         
@@ -12,7 +13,7 @@ define(["lib/knockout-3.4.0.js"],function (ko) {
         self.date = new Date();
 
         self.fromLine = ko.computed(function () {
-            return self.sender + " says "+ self.date.toTimeString() ;
+            return self.sender + ' says '+ self.date.toTimeString() ;
         });
     }
     return Message;

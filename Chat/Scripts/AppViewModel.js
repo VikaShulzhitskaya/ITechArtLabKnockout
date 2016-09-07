@@ -2,7 +2,8 @@
  * Created by v.shulzhytskaya on 9/2/2016.
  */
 
-define(["lib/knockout-3.4.0.js", "User", "Room", "Authorize"], function (ko, User, Room, Authorize) {
+define(['knockout', 'User', 'Room', 'Authorize'], function (ko, User, Room, Authorize) {
+    'use strict';
 
     function find(array, value) {
         for(var i = 0; i < array.length; i += 1){
@@ -83,6 +84,7 @@ define(["lib/knockout-3.4.0.js", "User", "Room", "Authorize"], function (ko, Use
         
         self.clickRoom = function (room) {
             self.selectedRoom(room);
+            room.readMessage(self.authorizedUser());
         };
         
         self.slideForm = ko.observable(false);
@@ -112,6 +114,10 @@ define(["lib/knockout-3.4.0.js", "User", "Room", "Authorize"], function (ko, Use
             room.deleteUser(self.authorizedUser());
             reloadData();
         };
+
+        self.a = ko.observable(2);
+        self.b = ko.observable(0);
+
     }
 
     return AppViewModel;

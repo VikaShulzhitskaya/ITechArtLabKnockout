@@ -3,6 +3,7 @@
  */
 
 define(function () {
+    'use strict';
 
     function User(id, name, password) {
         var self = this;

@@ -2,7 +2,8 @@
  * Created by v.shulzhytskaya on 9/6/2016.
  */
 
-define(["lib/knockout-3.4.0.js", "User"], function (ko, User) {
+define(['knockout', 'User'], function (ko, User) {
+    'use strict';
 
     function Authorize() {
         var self = this;

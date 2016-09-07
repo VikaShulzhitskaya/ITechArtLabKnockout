@@ -44,6 +44,7 @@
                 <li>
                     <p>Name: <span data-bind="text:name, click:$root.clickRoom"></span></p>
                     <p>Members:<span data-bind="text:membersName"></span></p>
+                    <p>New notification: <span data-bind="text:getNotificationCount($root), valueUpdate:'change'"></span> </p>
                     <a href="#" data-bind="click: $root.unsubscribeFromRoom">Unsubscribe</a>
                 </li>
             </ul>
@@ -89,6 +90,7 @@
             <!-- /ko -->
         </div>
     </div>
+    <click params="a: a, b: b"></click>
 </div>
 <script data-main="Scripts/main" src="Scripts/lib/require.js"></script>
 </body>
