@@ -2,20 +2,21 @@
  * Created by v.shulzhytskaya on 9/6/2016.
  */
 
-define(function () {
+define(['knockout'], function (ko) {
     'use strict';
 
     function Notification(user) {
         var self = this;
         self.user = user;
-        self.countOfNotification = 0;
+        self.countOfNotification = ko.observable(0);
 
         self.addNotification = function () {
-            self.countOfNotification ++;
+            var n = self.countOfNotification();
+            self.countOfNotification(n +1);
         };
 
         self.removeNotification = function () {
-            self.countOfNotification = 0;
+            self.countOfNotification(0);
         };
     };
 

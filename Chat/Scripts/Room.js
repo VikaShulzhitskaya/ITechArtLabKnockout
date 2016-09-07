@@ -57,7 +57,7 @@ define(['knockout', 'Message', 'Notification'], function (ko, Message, Notificat
 
             ko.utils.arrayForEach(self.notifyInformation(), function (item) {
                 if(item.user == u){
-                    t = item.countOfNotification;
+                    t = item.countOfNotification();
                 }
             });
             return t;
