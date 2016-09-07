@@ -116,13 +116,14 @@
             <!-- /ko -->
             <!-- /ko -->
             <!-- ko if:authorize.authorizedUser -->
-            <div class="row">
-                <p></p>
-                <input type="text" class="search" placeholder="Search" data-bind="value:search, valueUpdate:'keyup'"/>
-                <div data-bind="foreach:filteredArray">
-                    <p><span data-bind="text:name, click:$root.clickRoom"></span></p>
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" data-bind="value:search, valueUpdate:'keyup'"/>
+                    <div data-bind="foreach:filteredArray">
+                        <p><span data-bind="text:name, click:$root.clickRoom"></span></p>
+                    </div>
                 </div>
-            </div>
+            </form>
             <!-- /ko -->
         </div>
     </div>
