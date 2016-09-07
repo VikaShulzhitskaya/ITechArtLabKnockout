@@ -39,6 +39,15 @@
     <div class="row">
         <div class="col-md-3">
             <!-- ko if:authorizedUser -->
+            <label><input type="checkbox" data-bind="checked: slideForm" /> Create new room!</label>
+            <div data-bind="slideVisible: slideForm, slideDuration:600">
+                <p>Enter room name: <input type="text" data-bind="value:newRoomName"/></p>
+                <p>Choose members:<select multiple data-bind="options:availableMembers,
+                                                          optionsText: 'name',
+                                                          selectedOptions: selectedUsers"></select> </p>
+                <button class="btn btn-default" data-bind="click:createRoom">Save</button>
+            </div>
+            <hr/>
             <h5>Chats:</h5>
             <ul data-bind="foreach: availableRooms">
                 <li>
@@ -48,15 +57,6 @@
                     <a href="#" data-bind="click: $root.unsubscribeFromRoom">Unsubscribe</a>
                 </li>
             </ul>
-            <hr/>
-            <label><input type="checkbox" data-bind="checked: slideForm" /> Create new room!</label>
-            <div data-bind="slideVisible: slideForm, slideDuration:600">
-                <p>Enter room name: <input type="text" data-bind="value:newRoomName"/></p>
-                <p>Choose members:<select multiple data-bind="options:availableMembers,
-                                                          optionsText: 'name',
-                                                          selectedOptions: selectedUsers"></select> </p>
-                <button class="btn btn-default" data-bind="click:createRoom">Save</button>
-            </div>
             <!-- /ko -->
         </div>
         <div class="col-md-5">
@@ -88,9 +88,23 @@
             <button class="btn btn-info" data-bind="click: register">Register me</button>
             <!-- /ko -->
             <!-- /ko -->
+            <!-- ko if:authorizedUser -->
+            <div class="row">
+                <p></p>
+                <input type="text" class="search" placeholder="Search" data-bind="value:search, valueUpdate:'keyup'"/>
+                <div data-bind="foreach:filteredArray">
+                    <p><span data-bind="text:name, click:$root.clickRoom"></span></p>
+                </div>
+            </div>
+            <!-- /ko -->
         </div>
     </div>
-    <click params="a: a, b: b"></click>
+    <!-- ko if:authorizedUser -->
+    <div class="row">
+        <click params="a: a, b: b"></click>
+    </div>
+    <!-- /ko -->
+
 </div>
 <script data-main="Scripts/main" src="Scripts/lib/require.js"></script>
 </body>

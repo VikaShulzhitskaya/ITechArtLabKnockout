@@ -7,7 +7,7 @@ define(['knockout', 'Message', 'Notification'], function (ko, Message, Notificat
 
     function Room(name) {
         var self = this;
-        self.name = ko.observable(name);
+        self.name = name;
 
         self.messages = ko.observableArray();
         self.addMessage = function (sender, message) {

@@ -117,6 +117,26 @@ define(['knockout', 'User', 'Room', 'Authorize'], function (ko, User, Room, Auth
 
         self.a = ko.observable(2);
         self.b = ko.observable(0);
+        
+        self.search = ko.observable();
+        self.filteredArray = ko.computed(function () {
+            var filter = self.search();
+            if(!filter){
+                return;
+            }
+            else {
+                return ko.utils.arrayFilter(self.availableRooms(), function (item) {
+                    return stringStartsWith(item.name.toLowerCase(), filter.toLowerCase());
+                });
+            }
+        });
+
+        var stringStartsWith = function (string, startsWith) {
+            string = string || "";
+            if (startsWith.length > string.length)
+                return false;
+            return string.substring(0, startsWith.length) === startsWith;
+        };
 
     }
 
