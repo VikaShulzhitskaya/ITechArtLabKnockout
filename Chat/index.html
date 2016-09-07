@@ -53,7 +53,7 @@
                 <li>
                     <p>Name: <span data-bind="text:name, click:$root.clickRoom"></span></p>
                     <p>Members:<span data-bind="text:membersName"></span></p>
-                    <p>New notification: <span data-bind="text:getNotificationCount($root), valueUpdate:'change'"></span> </p>
+                    <p><button type="button" data-bind="text:getNotificationCount($root), valueUpdate:'change'" class="btn btn-warning btn-circle"></button></p>
                     <a href="#" data-bind="click: $root.unsubscribeFromRoom">Unsubscribe</a>
                 </li>
             </ul>
